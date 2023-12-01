@@ -1,6 +1,6 @@
 .include "init.inc"
 .global isr_ignore, isr_ignore2, idt_table_size
-.equ idt_table_size, 10
+.equ idt_table_size, 256
 isr_ignore:
 	push %gs
 	push %fs

@@ -1,12 +1,7 @@
-void func1(char *str)
-{
-	(void)str;
-}
 
 int kernel_main()
 {
-	char *str = "hihihi!! with c";
-	func1(str);
-	printf();
+	asm("int $0x0");
+	asm("int $0x1");
 	return 0;
 }

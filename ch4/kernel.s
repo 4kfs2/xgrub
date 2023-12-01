@@ -39,8 +39,7 @@ loop_idt:
 	lidt (idtr)
 
 	sti
-	int $0x0
-	int $0x1
+	call kernel_main
 	jmp .
 
 .global msg_isr_ignore, msg_isr_ignore2
