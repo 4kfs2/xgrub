@@ -1,3 +1,5 @@
+.include "init.inc"
+
 .org 0
 .code16
 
@@ -11,7 +13,7 @@ start:
 	mov %ax, %es
 	mov $0, %di
 	movw (msgBack), %ax
-	mov $0x003, %cx
+	mov $0x7ff, %cx
 
 paint:
 	movw %ax, %es:(%di)
@@ -31,9 +33,18 @@ read:
 	mov $0, %dh
 	mov $0, %dl
 	int $0x13
-
 	jc read
-	jmpw $0x1000, $0x0000
+
+	cli
+	lgdt (gdtr)
+	mov %cr0, %eax
+	or $0x00000001, %eax
+	mov %eax, %cr0
+	jmp . + 2
+	nop
+	nop
+
+	jmpl $sys_code_selector, $0x0000
 
 msgBack:
 	.byte '.', 0x67
