@@ -29,10 +29,6 @@ loop_idt:
 	lea (idt_ignore), %esi
 	mov $8, %cx
 	rep movsb
-	lea (idt_ignore2), %esi
-	mov $8, %cx
-	rep movsb
-	dec %ax
 	dec %ax
 	jnz loop_idt
 
@@ -41,15 +37,20 @@ loop_idt:
 	mov $8, %cx
 	rep movsb
 
+	mov $(8*0x21), %edi
+	lea (idt_keyboard), %esi
+	mov $8, %cx
+	rep movsb
+
 	lidt (idtr)
 
-	mov $0xfe, %al
+	mov $0xfc, %al
 	out %al, $0x21
 	sti
 	call kernel_main
 	jmp .
 
-.global msg_isr_ignore, msg_isr_ignore2, msg_isr_32_timer
+.global msg_isr_ignore, msg_isr_ignore2, msg_isr_32_timer, msg_isr_33_keyboard
 msgPmode:
 	.ascii "Hello protected world!!"
 	.byte 0
@@ -61,4 +62,7 @@ msg_isr_ignore2:
 	.byte 0
 msg_isr_32_timer:
 	.ascii ".This is the timer interrupt"
+	.byte 0
+msg_isr_33_keyboard:
+	.ascii ".This is the keyboard interrupt"
 	.byte 0

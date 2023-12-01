@@ -34,7 +34,7 @@ read:
 	mov $0, %bx
 
 	mov $2, %ah
-	mov $1, %al
+	mov $2, %al
 	mov $0, %ch
 	mov $2, %cl
 	mov $0, %dh
@@ -78,7 +78,7 @@ read:
 	mov $0xff, %al
 	outb %al, $0xA1
 	.word 0x00eb, 0x00eb
-	mov $0xfb, %al
+	mov $0xfc, %al
 	out %al, $0x21
 
 	lgdt (gdtr)
