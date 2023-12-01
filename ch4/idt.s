@@ -1,5 +1,6 @@
 .include "init.inc"
-.global isr_ignore, isr_ignore2
+.global isr_ignore, isr_ignore2, idt_table_size
+.equ idt_table_size, 10
 isr_ignore:
 	push %gs
 	push %fs
@@ -48,7 +49,7 @@ isr_ignore2:
 
 .global idtr, idt_ignore, idt_ignore2
 idtr:
-	.word 256 * 8 - 1
+	.word idt_table_size * 8 - 1
 	.long 0
 
 idt_ignore:

@@ -22,7 +22,7 @@ pm_start:
 	mov %ax, %es
 	xor %eax, %eax
 	xor %ecx, %ecx
-	mov $256, %ax
+	mov $idt_table_size, %ax
 	mov $0, %edi
 
 loop_idt:
@@ -39,8 +39,8 @@ loop_idt:
 	lidt (idtr)
 
 	sti
-	int $0x77
-	int $0x78
+	int $0x0
+	int $0x1
 	jmp .
 
 .global msg_isr_ignore, msg_isr_ignore2
