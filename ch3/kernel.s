@@ -15,6 +15,11 @@ pm_start:
 	mov $1620, %edi
 	lea (msgPmode), %esi
 	call kernel_main
+
+	mov $u_data_selector, %ax
+	mov %ax, %ds
+	mov $0, %esi
+	movb $0x34, %ds:(%esi)
 	jmp .
 
 msgPmode:

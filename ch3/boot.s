@@ -65,6 +65,13 @@ gdt:
 
 	.long 0x8000ffff
 	.long 0x0040920b
+
+	.long 0x0000ffff
+	.long 0x00cffa02
+
+	.long 0x0000ffff
+	.long 0x00cff203
+
 gdt_end:
 
 .org 510
