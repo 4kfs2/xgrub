@@ -1,4 +1,4 @@
-.org 0
+.include "init.inc"
 .code16
 start:
 	mov %cs, %ax
@@ -30,7 +30,7 @@ pm_start:
 	mov $video_selector, %ax
 	mov %ax, %es
 	mov $1620, %edi
-	lea %ds:(msgPmode), %esi
+	lea (msgPmode), %esi
 	call kernel_main
 	jmp .
 
@@ -60,28 +60,16 @@ gdtr:
 	.long gdt + 0x10000
 
 gdt:
-	.word 0x0000, 0x0000
-	.word 0x0000, 0x0000
+	.long 0
+	.long 0
 
-.set sys_code_selector, 0x08
-	.word 0xffff
-	.word 0x0000
-	.byte 0x01
-	.byte 0x9a
-	.byte 0xcf
-	.byte 0x00
-.set sys_data_selector, 0x10
-	.word 0xffff
-	.word 0x0000
-	.byte 0x01
-	.byte 0x92
-	.byte 0xcf
-	.byte 0x00
-.set video_selector, 0x18
-	.word 0xffff
-	.word 0x8000
-	.byte 0x0b
-	.byte 0x92
-	.byte 0x40
-	.byte 0x00
+	.long 0x0000ffff
+	.long 0x00cf9a01
+
+	.long 0x0000ffff
+	.long 0x00cf9201
+
+	.long 0x8000ffff
+	.long 0x0040920b
 gdt_end:
+

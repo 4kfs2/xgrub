@@ -11,7 +11,7 @@ start:
 	mov %ax, %es
 	mov $0, %di
 	movw (msgBack), %ax
-	mov $0x7ff, %cx
+	mov $0x003, %cx
 
 paint:
 	movw %ax, %es:(%di)
@@ -33,9 +33,28 @@ read:
 	int $0x13
 
 	jc read
-	jmp $0x1000, $0x0000
+	jmpw $0x1000, $0x0000
 
 msgBack:
 	.byte '.', 0x67
+
+gdtr:
+	.word gdt_end - gdt - 1
+	.long gdt + 0x7c00
+
+gdt:
+	.long 0
+	.long 0
+
+	.long 0x0000ffff
+	.long 0x00cf9a01
+
+	.long 0x0000ffff
+	.long 0x00cf9201
+
+	.long 0x8000ffff
+	.long 0x0040920b
+gdt_end:
+
 .org 510
 .word 0xaa55

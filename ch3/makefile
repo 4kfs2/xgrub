@@ -1,6 +1,6 @@
-AS := i686-elf-as
-LD := i686-elf-ld
-CC := i686-elf-gcc
+AS := i386-elf-as
+LD := i386-elf-ld
+CC := i386-elf-gcc
 CFLAGS := -ffreestanding -Wall -Wextra -nostdlib
 bin := boot.bin kernel.bin
 
