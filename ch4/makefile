@@ -3,7 +3,7 @@ LD := i386-elf-ld
 CC := i386-elf-gcc
 CFLAGS := -ffreestanding -Wall -Wextra -nostdlib
 bin := boot.bin kernel.bin
-code32 := kernel.o printf.o main.o
+code32 := kernel.o idt.o printf.o main.o
 
 %.bin : %.o
 	$(LD) -Ttext 0 --oformat=binary -o $@ $< 

@@ -1,3 +1,5 @@
+.include "init.inc"
+.global isr_ignore, isr_ignore2
 isr_ignore:
 	push %gs
 	push %fs
@@ -8,7 +10,7 @@ isr_ignore:
 
 	mov $video_selector, %ax
 	mov %ax, %es
-	mov $1620, %edi
+	mov $(80*7*2), %edi
 	lea (msg_isr_ignore), %esi
 	call printf
 
@@ -31,8 +33,8 @@ isr_ignore2:
 
 	mov $video_selector, %ax
 	mov %ax, %es
-	mov $2620, %edi
-	lea (msg_isr_ignore), %esi
+	mov $(80*8*2), %edi
+	lea (msg_isr_ignore2), %esi
 	call printf
 
 	popfl
@@ -44,3 +46,21 @@ isr_ignore2:
 
 	iret
 
+.global idtr, idt_ignore, idt_ignore2
+idtr:
+	.word 256 * 8 - 1
+	.long 0
+
+idt_ignore:
+	.word isr_ignore
+	.word idt_code_selector
+	.byte 0
+	.byte 0x8e
+	.word 0x0001
+
+idt_ignore2:
+	.word isr_ignore2
+	.word idt_code_selector
+	.byte 0
+	.byte 0x8e
+	.word 0x0001

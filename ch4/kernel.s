@@ -29,6 +29,10 @@ loop_idt:
 	lea (idt_ignore), %esi
 	mov $8, %cx
 	rep movsb
+	lea (idt_ignore2), %esi
+	mov $8, %cx
+	rep movsb
+	dec %ax
 	dec %ax
 	jnz loop_idt
 
@@ -36,54 +40,18 @@ loop_idt:
 
 	sti
 	int $0x77
+	int $0x78
 	jmp .
 
-isr_ignore:
-	push %gs
-	push %fs
-	push %es
-	push %ds
-	pushal
-	pushfl
-
-	mov $video_selector, %ax
-	mov %ax, %es
-	mov $1620, %edi
-	lea (msg_isr_ignore), %esi
-	call printf
-
-	popfl
-	popal
-	pop %ds
-	pop %es
-	pop %fs
-	pop %gs
-
-	iret
-
-idtr:
-	.word 256 * 8 - 1
-	.long 0
-
-idt_ignore:
-	.word isr_ignore
-	.word idt_code_selector
-	.byte 0
-	.byte 0x8e
-	.word 0x0001
-
-idt_ignore2:
-	.word isr_ignore
-	.word idt_code_selector
-	.byte 0
-	.byte 0x8e
-	.word 0x0001
-
+.global msg_isr_ignore, msg_isr_ignore2
 msgPmode:
 	.ascii "Hello protected world!!"
 	.byte 0
 msg_isr_ignore:
 	.ascii "This is an ignorable interrupt"
+	.byte 0
+msg_isr_ignore2:
+	.ascii "This is an ignorable interrupt2!"
 	.byte 0
 msg_isr_32_timer:
 	.ascii "This is the timer interrupt"
