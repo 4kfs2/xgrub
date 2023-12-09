@@ -133,72 +133,43 @@ read_user5:
 
 	cli
 
-	ca
+	call a20_try_loop
 
-	push ds
-	mov ax, 0
-	mov ds, ax
-	mov si, 1
-	mov word [ds:si], 0
+	mov al, 0x11
+	out 0x20, al
+	dw 0x00eb, 0x00eb
+	out 0xA0, al
+	dw 0x00eb, 0x00eb
 
-	mov ax, 0xffff
-	mov ds, ax
-	mov si, 0x11
-	mov word [ds:si], 0x1234
+	mov al, 0x20
+	out 0x21, al
+	dw 0x00eb, 0x00eb
+	mov al, 0x28
+	out 0xA1, al
+	dw 0x00eb, 0x00eb
 
-	mov ax, 0
-	mov ds, ax
-	mov si, 1
-	mov bx, word [ds:si]
-	pop ds
-	cmp bx, 0x1234
-	je noA20
+	mov al, 0x04
+	out 0x21, al
+	dw 0x00eb, 0x00eb
+	mov al, 0x20
+	out 0xA1, al
+	dw 0x00eb, 0x00eb
 
-yesA20:
-	mov ax, 0xb800
-	mov es, ax
-	mov di, 0
-	lea si, [msgA20on]
+	mov al, 0x01
+	out 0x21, al
+	dw 0x00eb, 0x00eb
+	out 0xA1, al
+	dw 0x00eb, 0x00eb
 
-yes_loop:
-	mov al, byte [si]
-	cmp al, 0
-	je stop
-	mov byte [es:di], al
-	inc si
-	inc di
-	mov byte [es:di], 0x06
-	inc di
-	jmp yes_loop
+	mov al, 0xFF
+	out 0xA1, al
+	dw 0x00eb, 0x00eb
+	mov al, 0xFB
+	out 0x21, al
 
-noA20:
-	mov ax, 0xb800
-	mov es, ax
-	mov di, 0
-	lea si, [msgA20off]
+	jmp 0x9000:0000
 
-no_loop:
-	mov al, byte [si]
-	cmp al, 0
-	je stop
-	mov byte [es:di], al
-	inc si
-	inc di
-	mov byte [es:di], 0x06
-	inc di
-	jmp no_loop
+msgBack db '.', 0x70
 
-stop:
-	jmp $
-
-msgBack db ' ', 0x07
-msgA20on db "A20 on ", 0
-msgA20off db "A20 off ",0
-
-times 64 db 0
-
-boot_stack:
-	times 510-($-$$) db 0
-	dw 0xaa55
-
-
+times 510-($-$$) db 0
+dw 0xaa55
