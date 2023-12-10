@@ -5,7 +5,7 @@ PAGE_TAB_KERNEL	equ 0x101000
 PAGE_TAB_USER	equ 0x102000
 PAGE_TAB_LOW	equ 0x103000
 
-[org 0x900000]
+[org 0x90000]
 [bits 16]
 
 start:
@@ -53,7 +53,7 @@ pm_start:
 
 kernel_copy:
 	mov al, byte [ds:esi]
-	mov byte [ds:edi], al
+	mov byte [es:edi], al
 	inc edi
 	inc esi
 	dec cx
@@ -65,7 +65,7 @@ kernel_copy:
 
 user1_copy:
 	mov al, byte [ds:esi]
-	mov byte [ds:edi], al
+	mov byte [es:edi], al
 	inc edi
 	inc esi
 	dec cx
@@ -77,7 +77,7 @@ user1_copy:
 
 user2_copy:
 	mov al, byte [ds:esi]
-	mov byte [ds:edi], al
+	mov byte [es:edi], al
 	inc edi
 	inc esi
 	dec cx
@@ -89,7 +89,7 @@ user2_copy:
 
 user3_copy:
 	mov al, byte [ds:esi]
-	mov byte [ds:edi], al
+	mov byte [es:edi], al
 	inc edi
 	inc esi
 	dec cx
@@ -101,7 +101,7 @@ user3_copy:
 
 user4_copy:
 	mov al, byte [ds:esi]
-	mov byte [ds:edi], al
+	mov byte [es:edi], al
 	inc edi
 	inc esi
 	dec cx
@@ -113,7 +113,7 @@ user4_copy:
 
 user5_copy:
 	mov al, byte [ds:esi]
-	mov byte [ds:edi], al
+	mov byte [es:edi], al
 	inc edi
 	inc esi
 	dec cx
@@ -160,7 +160,7 @@ user5_copy:
 	mov eax, 0x00
 	mov ecx, 1024
 	cld
-	rep sotsd
+	rep stosd
 
 	mov edi, PAGE_TAB_USER+0x000*4
 	mov eax, 0x300000

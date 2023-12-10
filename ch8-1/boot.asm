@@ -151,7 +151,7 @@ read_user5:
 	mov al, 0x04
 	out 0x21, al
 	dw 0x00eb, 0x00eb
-	mov al, 0x20
+	mov al, 0x02
 	out 0xA1, al
 	dw 0x00eb, 0x00eb
 
@@ -173,3 +173,4 @@ msgBack db '.', 0x70
 
 times 510-($-$$) db 0
 dw 0xaa55
+ 

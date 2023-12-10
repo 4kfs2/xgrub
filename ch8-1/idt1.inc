@@ -150,49 +150,47 @@ isr_09:
 	call printf
 	jmp $
 
-isr_00:
+isr_10:
 	mov edi, (80*12*2)
-	lea esi, [msg_isr_00_zero_divide]
+	lea esi, [msg_isr_10_bad_tss]
 	call printf
 	jmp $
 
-isr_00:
+isr_11:
 	mov edi, (80*12*2)
-	lea esi, [msg_isr_00_zero_divide]
+	lea esi, [msg_isr_11_segment_not_present]
 	call printf
 	jmp $
 
-isr_00:
+isr_12:
 	mov edi, (80*12*2)
-	lea esi, [msg_isr_00_zero_divide]
+	lea esi, [msg_isr_12_stack_fault]
 	call printf
 	jmp $
 
-isr_00:
+isr_13:
 	mov edi, (80*12*2)
-	lea esi, [msg_isr_00_zero_divide]
+	lea esi, [msg_isr_13_gpf]
 	call printf
 	jmp $
 
-isr_00:
+isr_14:
 	mov edi, (80*12*2)
-	lea esi, [msg_isr_00_zero_divide]
+	lea esi, [msg_isr_14_page_fault]
 	call printf
 	jmp $
 
-isr_00:
+isr_15:
 	mov edi, (80*12*2)
-	lea esi, [msg_isr_00_zero_divide]
+	lea esi, [msg_isr_15_coprocessor_error]
 	call printf
 	jmp $
 
-isr_00:
+isr_17:
 	mov edi, (80*12*2)
-	lea esi, [msg_isr_00_zero_divide]
+	lea esi, [msg_isr_17_alignment_check]
 	call printf
 	jmp $
-
-
 
 ret_from_int:
 	xor eax, eax
@@ -212,35 +210,24 @@ ret_from_int:
 
 	iret
 
+msg_isr_00_zero_divide db "Zero Divide", 0
+msg_isr_01_debug db "Debug", 0
+msg_isr_02_nmi db "NMI", 0
+msg_isr_03 db "int3", 0
+msg_isr_04_into db "INTO", 0
+msg_isr_05_bound db "Bound", 0
+msg_isr_06_opcode db "Invalid Opcode", 0
+msg_isr_07_coprocess db "Coprocess Not Available", 0
+msg_isr_08_double_fault db "Double Fault", 0
+msg_isr_09_coprocess_segment db "Coprocess Segment Overrun", 0
+msg_isr_10_bad_tss db "Bad TSS", 0
+msg_isr_11_segment_not_present db "Segment Not Present", 0
+msg_isr_12_stack_fault db "Stack Fault", 0
+msg_isr_13_gpf db "GPF", 0
+msg_isr_14_page_fault db "Page Fault", 0
+msg_isr_15_coprocessor_error db "Coprocess Error", 0
+msg_isr_17_alignment_check db "Alignment Check", 0
 msg_isr_ignore db "This is an ignoreable interrupt", 0
 msg_isr_32_timer db ".This is the timer interrupt", 0	
 msg_isr_33_keyboard db ".This is the keyboard interrupt", 0
 msg_isr_128_soft_int db ".This is the soft int interrupt", 0
-
-idt_ignore:
-	dw isr_ignore
-	dw 0x08
-	db 0
-	db 0x8e
-	dw 0x0001
-
-idt_timer:
-	dw isr_32_timer
-	dw 0x08
-	db 0
-	db 0x8e
-	dw 0x0001
-
-idt_keyboard:
-	dw isr_33_keyboard
-	dw 0x08
-	db 0
-	db 0x8e
-	dw 0x0001
-
-idt_soft_int:
-	dw isr_128_soft_int
-	dw 0x08
-	db 0
-	db 0xef
-	dw 0x0001

@@ -15,7 +15,6 @@
 
 	mov ax, tss_selector
 	ltr ax
-
 	mov eax, [current_task]
 	add eax, task_list
 	lea edx, [user_1_regs]

@@ -108,11 +108,6 @@ loop_idt:
 	mov cx, 8
 	rep movsb
 
-	mov edi, IDT_BASE + 8*16
-	lea esi, [idt_exception16]
-	mov cx, 8
-	rep movsb
-
 	mov edi, IDT_BASE + 8*17
 	lea esi, [idt_exception17]
 	mov cx, 8
